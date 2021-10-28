@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import SignIn from './SignIn'
+import TableData from './TableData'
+import './content.less'
+import './insertDom'
 function App() {
-  const [parentValue, setParentValue] = useState(false)
+  const [parentValue, setParentValue] = useState(true)
   const handleLogin = (state) => {
     setParentValue(state)
   }
@@ -10,11 +13,11 @@ function App() {
     <div>
       {parentValue ? (
         <div
-          onClick={() => {
-            setParentValue(false)
-          }}
+        // onClick={() => {
+        //   setParentValue(false)
+        // }}
         >
-          1111
+          <TableData></TableData>
         </div>
       ) : (
         <SignIn handleLogin={handleLogin}></SignIn>
