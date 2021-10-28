@@ -8,8 +8,6 @@ for (var i = 0; i < matches.length; i++) {
   var asin = matches[i].getAttribute('data-asin')
   if (asin) {
     asinList.push(asin)
-    var asinhtml = `<div class="asin-wrap"><div class="asin-title">ASIN: ${asin}</div></div>`
-    $(matches[i]).find('.s-widget-container').append(asinhtml)
   }
 }
 
@@ -25,6 +23,26 @@ export const getableData = () => {
         },
       },
       (json) => {
+        console.log('------------')
+        console.log(json)
+        let asignArr = json.data
+        asignArr.map((item) => {
+          if (item.asin) {
+            var asinhtml = `
+            <div class="asin-wrap">
+              <div class="asin-title">ASIN: ${item.asin}</div>
+              <div class="asin-item">售价: ${item.price}</div>
+              <div class="asin-item">日销量: ${item.estimatedDaySales}</div>
+              <div class="asin-item">月销量: ${item.estimatedSales}</div>
+              <div class="asin-item">净利润: ${item.net}</div>
+              <div class="asin-item">月收入: ${item.estRevenue}</div>
+              <div class="asin-item">上架时间: ${item.listedAtDate}</div>
+            </div>`
+            console.log('------', asinhtml)
+
+            $(`[data-asin=${item.asin}]`).find('.s-widget-container').append(asinhtml)
+          }
+        })
         resolve(json)
       },
     )
