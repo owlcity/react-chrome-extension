@@ -13,17 +13,20 @@ for (var i = 0; i < matches.length; i++) {
   }
 }
 
-chrome.runtime.sendMessage(
-  {
-    // 里面的值应该可以自定义，用于判断哪个请求之类的
-    type: 'post',
-    url: 'https://amz.demo.57xg.com/api/index/getproductlistbyasinlist', // 需要请求的url
-    data: {
-      asinList: asinList,
-    },
-  },
-  (json) => {
-    console.log('========')
-    console.log(json)
-  },
-)
+export const getableData = () => {
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage(
+      {
+        // 里面的值应该可以自定义，用于判断哪个请求之类的
+        type: 'post',
+        url: 'https://amz.demo.57xg.com/api/index/getproductlistbyasinlist', // 需要请求的url
+        data: {
+          asinList: asinList,
+        },
+      },
+      (json) => {
+        resolve(json)
+      },
+    )
+  })
+}

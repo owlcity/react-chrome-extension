@@ -51,12 +51,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           return response.json()
         })
         .then(function (json) {
-          alert(JSON.stringify(json))
+          // alert(JSON.stringify(json))
           return sendResponse(json)
         })
         .catch(function (error) {
           // alert('error');
-          alert(error)
+          // alert(error)
           return sendResponse(null)
         })
       break
