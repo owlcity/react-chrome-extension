@@ -124,8 +124,8 @@ function EnhancedTableHead(props) {
 }
 export default function BasicTable() {
   const [rows, setRows] = useState([])
-  const [order, setOrder] = React.useState('asc')
-  const [orderBy, setOrderBy] = React.useState('name')
+  const [order, setOrder] = useState('asc')
+  const [orderBy, setOrderBy] = useState('name')
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
