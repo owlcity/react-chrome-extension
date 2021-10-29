@@ -23,8 +23,8 @@ export const getableData = () => {
         },
       },
       (json) => {
-        console.log('------------')
-        console.log(json)
+        // console.log('------------')
+        // console.log(json)
         let asignArr = json.data
         asignArr.map((item) => {
           if (item.asin) {
@@ -38,8 +38,7 @@ export const getableData = () => {
               <div class="asin-item">月收入: ${item.estRevenue}</div>
               <div class="asin-item">上架时间: ${item.listedAtDate}</div>
             </div>`
-            console.log('------', asinhtml)
-
+            // console.log('------', asinhtml)
             $(`[data-asin=${item.asin}]`).find('.s-widget-container').append(asinhtml)
           }
         })

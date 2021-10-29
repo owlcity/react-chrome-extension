@@ -4,10 +4,11 @@ import '../style/popup.less'
 
 function App() {
   // get static files by chrome.runtime.getURL
-  const logo = chrome.runtime.getURL('assets/create-crx-app.png')
+  const logo = chrome.runtime.getURL('assets/logo.png')
   const goToOptions = useCallback(() => {
     // go to options page
-    chrome.runtime.openOptionsPage()
+    // chrome.runtime.openOptionsPage()
+    window.open('https://amz.demo.57xg.com/')
   }, [])
   return (
     <div className="app">
@@ -18,7 +19,7 @@ function App() {
           className="crx-btn"
           style={{ width: 150, height: 30, lineHeight: '30px', cursor: 'pointer' }}
         >
-          Go to Options Page
+          去主页
         </div>
       </div>
     </div>

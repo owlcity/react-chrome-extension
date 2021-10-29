@@ -8,7 +8,7 @@
     "default_icon": "assets/logo.png",
     "default_popup": "pages/popup.html"
   },
-  "permissions": ["https://www.amazon.com/*", "declarativeContent"],
+  "permissions": ["https://www.amazon.com/*", "storage", "declarativeContent"],
   "homepage_url": "https://www.baidu.com",
   "background": {
     "scripts": ["js/background.js"]

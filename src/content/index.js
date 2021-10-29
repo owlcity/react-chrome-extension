@@ -28,6 +28,12 @@ function App() {
     enter: theme.transitions.duration.enteringScreen,
     exit: theme.transitions.duration.leavingScreen,
   }
+  chrome.storage.local.get(['login'], function (result) {
+    console.log('Value currently is ' + result.login)
+    if (result.login) {
+      setLoginValue(true)
+    }
+  })
   const handleLogin = (state) => {
     setLoginValue(state)
   }

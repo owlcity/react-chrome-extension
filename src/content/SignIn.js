@@ -43,6 +43,9 @@ export default function SignIn(props) {
         if (!res.code) {
           handleClickOpen()
         } else {
+          chrome.storage.local.set({ login: true }, function () {
+            console.log('Value is set to ' + value)
+          })
           handleLogin(true)
         }
       },
