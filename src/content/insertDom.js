@@ -4,7 +4,7 @@ var parentEl = $('.s-main-slot')
 var matches = parentEl.find('div[data-asin]')
 var asinList = []
 for (var i = 0; i < matches.length; i++) {
-  console.log(matches[i].getAttribute('data-asin'))
+  // console.log(matches[i].getAttribute('data-asin'))
   var asin = matches[i].getAttribute('data-asin')
   if (asin) {
     asinList.push(asin)
@@ -39,7 +39,12 @@ export const getableData = () => {
               <div class="asin-item">上架时间: ${item.listedAtDate}</div>
             </div>`
             // console.log('------', asinhtml)
-            $(`[data-asin=${item.asin}]`).find('.s-widget-container').append(asinhtml)
+            // 插入dom
+            var wraphtml = $(`[data-asin=${item.asin}]`).find('.s-widget-container')
+            let hasDom = $(`[data-asin=${item.asin}]`).find('.s-widget-container .asin-wrap').length
+            if (!hasDom) {
+              $(`[data-asin=${item.asin}]`).find('.s-widget-container').append(asinhtml)
+            }
           }
         })
         resolve(json)
