@@ -43,7 +43,9 @@ export const getableData = () => {
             var wraphtml = $(`[data-asin=${item.asin}]`).find('.s-widget-container')
             let hasDom = $(`[data-asin=${item.asin}]`).find('.s-widget-container .asin-wrap').length
             if (!hasDom) {
-              $(`[data-asin=${item.asin}]`).find('.s-widget-container').append(asinhtml)
+              $(`[data-asin=${item.asin}]`)
+                .find('.s-widget-container .s-card-container')
+                .append(asinhtml)
             }
           }
         })

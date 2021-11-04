@@ -51,14 +51,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           return response.json()
         })
         .then(function (json) {
-          // alert(JSON.stringify(json))
-          return sendResponse(json)
+          sendResponse(json)
         })
         .catch(function (error) {
-          // alert('error');
-          // alert(error)
           return sendResponse(null)
         })
+      // sendResponse这个回调方法，只在同步使用时正常执行，如果要异步使用，必须在处理函数中return true
+      return true
       break
     // 你可以定义任意内容，使用sendResponse()来返回它
     case 'test':

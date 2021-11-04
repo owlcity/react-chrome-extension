@@ -12,6 +12,8 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 export default function SignIn(props) {
   const { handleLogin } = props
   const [open, setOpen] = useState(false)
+  const [fullWidth, setFullWidth] = useState(true)
+  const [maxWidth, setMaxWidth] = useState('sm')
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -39,12 +41,12 @@ export default function SignIn(props) {
           password: data.get('password'),
         },
       },
-      (res) => {
-        if (!res.code) {
+      function (json) {
+        if (!json.code) {
           handleClickOpen()
         } else {
           chrome.storage.local.set({ login: true }, function () {
-            console.log('Value is set to ' + value)
+            console.log('Value is set to ' + JSON.stringify(json))
           })
           handleLogin(true)
         }
@@ -107,11 +109,13 @@ export default function SignIn(props) {
       <Dialog
         open={open}
         onClose={handleClose}
+        fullWidth={fullWidth}
+        maxWidth={maxWidth}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">{'提示'}</DialogTitle>
-        <DialogContent>
+        <DialogContent className="dialog-con">
           <DialogContentText id="alert-dialog-description">账号或密码错误</DialogContentText>
         </DialogContent>
         <DialogActions>
