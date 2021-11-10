@@ -9,16 +9,16 @@ import Paper from '@material-ui/core/Paper'
 import Skeleton from '@material-ui/core/Skeleton'
 import Box from '@material-ui/core/Box'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
-
+import CloseIcon from '@material-ui/icons/Close'
+import AutorenewIcon from '@material-ui/icons/Autorenew'
+import FilterNoneIcon from '@material-ui/icons/FilterNone'
+import PersonIcon from '@material-ui/icons/Person'
+import Draggable from 'react-draggable'
 import { getableData } from './insertDom'
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein }
 }
-// 获取tableData
-
-// console.log('---------------')
-// console.log(rows)
 
 function descendingComparator(a, b, orderBy) {
   if (Number(b[orderBy]) < Number(a[orderBy])) {
@@ -122,7 +122,7 @@ function EnhancedTableHead(props) {
     </TableHead>
   )
 }
-export default function BasicTable() {
+export default function BasicTable(props) {
   const [rows, setRows] = useState([])
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
@@ -132,17 +132,41 @@ export default function BasicTable() {
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
-
+  const handleClose = () => {
+    props.closeExt()
+  }
   useEffect(() => {
     getableData().then((res) => {
       setRows(res.data)
     })
   }, [])
   return (
-    <div className="table-wrap">
-      <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
-        <Table className="table-root" stickyHeader sx={{ minWidth: 650 }} aria-label="sticky table">
-          {/* <TableHead className="table-wrap-head">
+    <Draggable disabled={false}>
+      <div className="extension-wrap">
+        <div className="table-wrap">
+          <div className="ext-title">
+            <div className="ext-l">
+              xxxx{' '}
+              <span>
+                <PersonIcon className="a-cursor" color="#fff" fontSize="small" />
+                退出
+              </span>
+            </div>
+            <div className="ext-m">西瓜出海</div>
+            <div className="ext-r">
+              <AutorenewIcon className="a-cursor" color="#fff" />
+              <FilterNoneIcon className="a-cursor" color="#fff" fontSize="small" />
+              <CloseIcon className="a-cursor" onClick={handleClose} color="#fff" />
+            </div>
+          </div>
+          <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
+            <Table
+              className="table-root"
+              stickyHeader
+              sx={{ minWidth: 650 }}
+              aria-label="sticky table"
+            >
+              {/* <TableHead className="table-wrap-head">
             <TableRow>
               <TableCell align="center">名称</TableCell>
               <TableCell align="center">月销量</TableCell>
@@ -154,49 +178,54 @@ export default function BasicTable() {
               <TableCell align="center">上架时间</TableCell>
             </TableRow>
           </TableHead> */}
-          <EnhancedTableHead
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            rowCount={rows.length}
-          />
-          <TableBody>
-            {rows.length ? (
-              stableSort(rows, getComparator(order, orderBy)).map((row, index) => (
-                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell align="center">
-                    <div className="cell-wrap">
-                      <img src={row.imageUrl} alt="" />
-                      <p>{row.name}</p>
-                    </div>
-                  </TableCell>
-                  <TableCell align="center">{row.estimatedSales}</TableCell>
-                  <TableCell align="center">{row.estimatedDaySales}</TableCell>
-                  <TableCell align="center">{row.price}</TableCell>
-                  <TableCell align="center">{row.net}</TableCell>
-                  <TableCell align="center">{row.estRevenue}</TableCell>
-                  <TableCell align="center">{row.rating}</TableCell>
-                  <TableCell align="center">{row.listedAtDate}</TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell align="right" colSpan={8} rowSpan={3}>
-                  <Box sx={{ width: '100%' }}>
-                    {[1, 2, 3].map((item) => (
-                      <div key={item}>
-                        <Skeleton height={50} />
-                        <Skeleton height={50} animation="wave" />
-                        <Skeleton height={50} animation={false} />
-                      </div>
-                    ))}
-                  </Box>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div>
+              <EnhancedTableHead
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
+              />
+              <TableBody>
+                {rows.length ? (
+                  stableSort(rows, getComparator(order, orderBy)).map((row, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell align="center">
+                        <div className="cell-wrap">
+                          <img src={row.imageUrl} alt="" />
+                          <p>{row.name}</p>
+                        </div>
+                      </TableCell>
+                      <TableCell align="center">{row.estimatedSales}</TableCell>
+                      <TableCell align="center">{row.estimatedDaySales}</TableCell>
+                      <TableCell align="center">{row.price}</TableCell>
+                      <TableCell align="center">{row.net}</TableCell>
+                      <TableCell align="center">{row.estRevenue}</TableCell>
+                      <TableCell align="center">{row.rating}</TableCell>
+                      <TableCell align="center">{row.listedAtDate}</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell align="right" colSpan={8} rowSpan={3}>
+                      <Box sx={{ width: '100%' }}>
+                        {[1, 2, 3].map((item) => (
+                          <div key={item}>
+                            <Skeleton height={50} />
+                            <Skeleton height={50} animation="wave" />
+                            <Skeleton height={50} animation={false} />
+                          </div>
+                        ))}
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
+    </Draggable>
   )
 }

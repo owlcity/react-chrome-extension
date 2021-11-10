@@ -34,6 +34,9 @@ function App() {
       setLoginValue(true)
     }
   })
+  const closeExt = () => {
+    setCorner(0)
+  }
   const handleLogin = (state) => {
     setLoginValue(state)
   }
@@ -42,19 +45,7 @@ function App() {
       {corner ? (
         <div>
           {loginValue ? (
-            <div className="extension-wrap">
-              <Fab
-                sx={fabStyle1}
-                aria-label="Add"
-                color="#000"
-                onClick={() => {
-                  setCorner(0)
-                }}
-              >
-                <CloseIcon />
-              </Fab>
-              <TableData></TableData>
-            </div>
+            <TableData closeExt={closeExt}></TableData>
           ) : (
             <SignIn handleLogin={handleLogin}></SignIn>
           )}
