@@ -1,44 +1,48 @@
-import React, { useState } from 'react'
-import Container from '@material-ui/core/Box'
-import Box from '@material-ui/core/Box'
+import React, { Fragment, useState } from 'react'
+import CloseIcon from '@material-ui/icons/Close'
 import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import { configApi } from '../config'
 export default function SignIn(props) {
   const { handleLogin } = props
   const [open, setOpen] = useState(false)
   const [fullWidth, setFullWidth] = useState(true)
+  const [checked, setChecked] = useState(true)
   const [maxWidth, setMaxWidth] = useState('sm')
+  const [account, setAccount] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleClickOpen = () => {
     setOpen(true)
+  }
+  const handleAccount = (e) => {
+    setAccount(e.target.value)
+  }
+  const handlePassword = (e) => {
+    setPassword(e.target.value)
   }
 
   const handleClose = () => {
     setOpen(false)
   }
   const handleSubmit = (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
+    // event.preventDefault()
+    // const data = new FormData(event.currentTarget)
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    })
-    // return
     chrome.runtime.sendMessage(
       {
         // 里面的值应该可以自定义，用于判断哪个请求之类的
         type: 'post',
-        url: ' https://amz.demo.57xg.com/api/user/login', // 需要请求的url
+        url: configApi + '/api/user/login', // 需要请求的url
         data: {
-          account: data.get('email'),
-          password: data.get('password'),
+          account: account,
+          password: password,
         },
       },
       function (json) {
@@ -55,57 +59,50 @@ export default function SignIn(props) {
   }
 
   return (
-    <div>
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="账号"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              size="small"
+    <Fragment>
+      <div className="login-wrap">
+        <div className="login-title">
+          西瓜出海
+          <span className="close-icon">
+            <CloseIcon color="#fff"></CloseIcon>
+          </span>
+        </div>
+        <div className="login-con">
+          <div className="login-h2">账号登陆</div>
+          <input
+            className="login-input"
+            onChange={handleAccount}
+            type="text"
+            placeholder="请输入账号"
+          />
+          <input
+            onChange={handlePassword}
+            className="login-input"
+            type="password"
+            placeholder="请输入密码"
+          />
+          <div className="login-info">
+            <a href="">忘记密码</a>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={() => {
+                    setChecked(!checked)
+                  }}
+                />
+              }
+              label="记住密码"
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="密码"
-              type="password"
-              id="password"
-              size="small"
-              autoComplete="current-password"
-            />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              登陆
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <a href="https://amz.demo.57xg.com/" target="_blank">
-                  忘记密码
-                </a>
-              </Grid>
-              <Grid item>
-                <a href="https://amz.demo.57xg.com/" target="_blank">
-                  注册
-                </a>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
+          </div>
+          <div className="login-button" onClick={handleSubmit}>
+            登陆
+          </div>
+          <div className="login-desc">
+            还没有账号?<a href="">免费注册</a>
+          </div>
+        </div>
+      </div>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -124,6 +121,6 @@ export default function SignIn(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Fragment>
   )
 }

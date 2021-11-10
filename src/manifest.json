@@ -1,15 +1,15 @@
 {
   "manifest_version": 2,
   "name": "亚马逊商品分析",
-  "description": "chrome extension for react",
+  "description": "chrome extension for amazon",
   "version": "1.0.1",
   "page_action": {
     "default_title": "亚马逊商品分析",
     "default_icon": "assets/logo.png",
     "default_popup": "pages/popup.html"
   },
-  "permissions": ["https://www.amazon.com/*", "storage", "declarativeContent", "alarms"],
-  "homepage_url": "https://www.baidu.com",
+  "permissions": ["https://www.amazon.com/*", "storage", "declarativeContent"],
+  "homepage_url": "https://amz.57xg.com/",
   "background": {
     "scripts": ["js/background.js"]
   },

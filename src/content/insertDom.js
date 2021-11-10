@@ -1,5 +1,5 @@
 import $ from 'jquery'
-
+import { configApi } from '../config'
 var parentEl = $('.s-main-slot')
 var matches = parentEl.find('div[data-asin]')
 var asinList = []
@@ -17,7 +17,7 @@ export const getableData = () => {
       {
         // 里面的值应该可以自定义，用于判断哪个请求之类的
         type: 'post',
-        url: 'https://amz.demo.57xg.com/api/index/getproductlistbyasinlist', // 需要请求的url
+        url: configApi + '/api/index/getproductlistbyasinlist', // 需要请求的url
         data: {
           asinList: asinList,
         },
@@ -40,12 +40,14 @@ export const getableData = () => {
             </div>`
             // console.log('------', asinhtml)
             // 插入dom
-            var wraphtml = $(`[data-asin=${item.asin}]`).find('.s-widget-container')
-            let hasDom = $(`[data-asin=${item.asin}]`).find('.s-widget-container .asin-wrap').length
+            var wraphtml = $(`[data-asin=${item.asin}]`).children('.sg-col-inner')
+            let hasDom = $(`[data-asin=${item.asin}]`).find('.asin-wrap').length
             if (!hasDom) {
-              $(`[data-asin=${item.asin}]`)
-                .find('.s-widget-container .s-card-container')
-                .append(asinhtml)
+              if (wraphtml.find('.a-section.a-spacing-medium').length) {
+                wraphtml.find('.a-section.a-spacing-medium').append(asinhtml)
+              } else {
+                wraphtml.append(asinhtml)
+              }
             }
           }
         })

@@ -40,13 +40,19 @@ function App() {
   return (
     <div>
       {corner ? (
-        <div className="extension-wrap">
+        <div>
           {loginValue ? (
-            <div
-            // onClick={() => {
-            //   setloginValue(false)
-            // }}
-            >
+            <div className="extension-wrap">
+              <Fab
+                sx={fabStyle1}
+                aria-label="Add"
+                color="#000"
+                onClick={() => {
+                  setCorner(0)
+                }}
+              >
+                <CloseIcon />
+              </Fab>
               <TableData></TableData>
             </div>
           ) : (
