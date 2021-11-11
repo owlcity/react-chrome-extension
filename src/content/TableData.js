@@ -244,10 +244,10 @@ export default function BasicTable(props) {
             <div className="ext-title">
               <div className="ext-l">
                 {userinfo && userinfo.userinfo.nickname}
-                <span>
+                <i>
                   <PersonIcon className="a-cursor" color="#fff" fontSize="small" />
-                  退出
-                </span>
+                </i>
+                <span>退出</span>
               </div>
               <div className="ext-m">
                 <img className="title-logo" src="http://h5.57xg.com/logoxg.png" alt="" />
