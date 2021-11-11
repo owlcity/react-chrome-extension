@@ -44,6 +44,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
+          token: request.data.token ? request.data.token : '',
         },
         body: JSON.stringify(request.data),
       })
