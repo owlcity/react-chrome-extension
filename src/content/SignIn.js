@@ -50,7 +50,10 @@ export default function SignIn(props) {
           handleClickOpen()
         } else {
           chrome.storage.local.set({ login: true }, function () {
-            console.log('Value is set to ' + JSON.stringify(json))
+            // console.log('login status ' + JSON.stringify(json))
+          })
+          chrome.storage.local.set({ testinfo: json.data }, function () {
+            // console.log('userinfo' + JSON.stringify(json))
           })
           handleLogin(true)
         }
@@ -82,7 +85,9 @@ export default function SignIn(props) {
             placeholder="请输入密码"
           />
           <div className="login-info">
-            <a href="">忘记密码</a>
+            <a href="https://amz.57xg.com/" target="_blank">
+              忘记密码
+            </a>
             <FormControlLabel
               control={
                 <Checkbox
@@ -99,7 +104,10 @@ export default function SignIn(props) {
             登陆
           </div>
           <div className="login-desc">
-            还没有账号?<a href="">免费注册</a>
+            还没有账号?
+            <a href="https://amz.57xg.com/" target="_blank">
+              免费注册
+            </a>
           </div>
         </div>
       </div>

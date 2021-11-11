@@ -14,11 +14,37 @@
   background: #fff;
   border-top: 1px solid #cbcdd1;
   z-index: 2;
+  &.wrap-disabled {
+    transform: translate(0, 0) !important;
+  }
+  &.wrap-dragable {
+    width: 850px;
+    left: 0;
+    bottom: 20px;
+  }
+  .box-wrap {
+    display: flex;
+    padding: 15px 15px 15px 0;
+    .box-item {
+      flex: 1;
+      margin-left: 15px;
+      padding: 10px 20px;
+      box-shadow: 3px 3px 10px rgba(17, 17, 26, 0.1);
+      .box-title {
+        font-size: 12px;
+        margin-bottom: 3px;
+      }
+      .box-info {
+        font-size: 14px;
+        color: #0b61d7;
+      }
+    }
+  }
 }
 .table-wrap {
   tr {
     th {
-      padding: 16px;
+      padding: 8px;
       min-width: 120px;
     }
   }
@@ -45,16 +71,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  &.cell-wrap-1 {
+    width: 180px;
+  }
   img {
     width: 40px;
     height: 30px;
     margin-right: 5px;
   }
-  p {
-    width: 80px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  .cell-desc {
+    width: 145px;
+    div {
+      width: 145px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    p {
+      display: flex;
+      align-items: center;
+      margin-top: 3px;
+      color: #999;
+      i {
+        position: relative;
+        top: 3px;
+        font-size: 12px;
+        color: #0560e5;
+      }
+      span {
+        font-size: 12px;
+        color: #0560e5;
+        cursor: pointer;
+      }
+    }
   }
 }
 .login-wrap {
@@ -155,9 +204,19 @@
   }
   .ext-m {
     font-size: 20px;
+    .title-logo {
+      height: 20px;
+    }
   }
   .ext-r {
     position: relative;
     letter-spacing: 4px;
+    .icon-item {
+      margin-left: 10px;
+      &.icon-item-2 {
+        position: relative;
+        top: -2px;
+      }
+    }
   }
 }

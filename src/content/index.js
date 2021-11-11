@@ -34,6 +34,7 @@ function App() {
       setLoginValue(true)
     }
   })
+
   const closeExt = () => {
     setCorner(0)
   }
@@ -49,25 +50,6 @@ function App() {
           ) : (
             <SignIn handleLogin={handleLogin}></SignIn>
           )}
-          <Zoom
-            in={corner === 1}
-            timeout={transitionDuration}
-            style={{
-              transitionDelay: `${corner === 1 ? transitionDuration.exit : 0}ms`,
-            }}
-            unmountOnExit
-          >
-            <Fab
-              sx={fabStyle1}
-              aria-label="Add"
-              color="#000"
-              onClick={() => {
-                setCorner(0)
-              }}
-            >
-              <CloseIcon />
-            </Fab>
-          </Zoom>
         </div>
       ) : (
         <Zoom
@@ -98,9 +80,4 @@ const root = document.createElement('div')
 root.id = 'crx-root'
 document.body.appendChild(root)
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('crx-root'),
-)
+ReactDOM.render(<App />, document.getElementById('crx-root'))
