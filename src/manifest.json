@@ -1,12 +1,11 @@
 {
   "manifest_version": 2,
-  "name": "亚马逊商品分析",
-  "description": "chrome extension for amazon",
+  "name": "西瓜出海",
+  "description": "亚马逊商品销量价格分析工具",
   "version": "1.0.1",
   "page_action": {
-    "default_title": "亚马逊商品分析",
-    "default_icon": "assets/logo.png",
-    "default_popup": "pages/popup.html"
+    "default_title": "西瓜出海",
+    "default_icon": "assets/logo.png"
   },
   "permissions": ["https://www.amazon.com/*", "storage", "declarativeContent"],
   "homepage_url": "https://amz.57xg.com/",

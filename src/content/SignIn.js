@@ -10,7 +10,8 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { configApi } from '../config'
 export default function SignIn(props) {
-  const { handleLogin } = props
+  const { closeExt, handleLogin } = props
+  console.log(closeExt)
   const [open, setOpen] = useState(false)
   const [fullWidth, setFullWidth] = useState(true)
   const [checked, setChecked] = useState(true)
@@ -65,8 +66,13 @@ export default function SignIn(props) {
     <Fragment>
       <div className="login-wrap">
         <div className="login-title">
-          西瓜出海
-          <span className="close-icon">
+          <img className="title-logo" src="http://h5.57xg.com/logoxg.png" alt="" />
+          <span
+            className="close-icon"
+            onClick={() => {
+              closeExt()
+            }}
+          >
             <CloseIcon color="#fff"></CloseIcon>
           </span>
         </div>

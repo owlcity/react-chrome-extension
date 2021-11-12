@@ -35,7 +35,7 @@
         margin-bottom: 3px;
       }
       .box-info {
-        font-size: 14px;
+        font-size: 15px;
         color: #0b61d7;
       }
     }
@@ -121,12 +121,18 @@
   z-index: 111;
   .login-title {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 42px;
     line-height: 42px;
     background-color: #0560e5;
     color: #fff;
     text-align: center;
     font-size: 16px;
+    .title-logo {
+      height: 20px;
+    }
     .close-icon {
       position: absolute;
       right: 10px;
@@ -204,8 +210,10 @@
     i {
       position: relative;
       top: 4px;
+      margin: 0 1.5px;
     }
     span {
+      cursor: pointer;
       opacity: 0.5;
     }
   }

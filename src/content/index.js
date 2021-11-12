@@ -46,7 +46,7 @@ function App() {
       {corner ? (
         <div>
           {loginValue ? (
-            <TableData closeExt={closeExt}></TableData>
+            <TableData closeExt={closeExt} handleLogin={handleLogin}></TableData>
           ) : (
             <SignIn handleLogin={handleLogin}></SignIn>
           )}

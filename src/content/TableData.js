@@ -143,6 +143,7 @@ function EnhancedTableHead(props) {
   )
 }
 export default function BasicTable(props) {
+  const { handleLogin } = props
   const [rows, setRows] = useState([])
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
@@ -162,6 +163,17 @@ export default function BasicTable(props) {
   }
   const miniorClose = () => {
     setOpen(false)
+  }
+  const handleExit = () => {
+    console.log(handleLogin)
+    chrome.storage.local.clear(function () {
+      handleLogin(false)
+      handleClose()
+      var error = chrome.runtime.lastError
+      if (error) {
+        console.error(error)
+      }
+    })
   }
 
   const handleMinior = (data, newState) => {
@@ -247,7 +259,7 @@ export default function BasicTable(props) {
                 <i>
                   <PersonIcon className="a-cursor" color="#fff" fontSize="small" />
                 </i>
-                <span>退出</span>
+                <span onClick={handleExit}>退出</span>
               </div>
               <div className="ext-m">
                 <img className="title-logo" src="http://h5.57xg.com/logoxg.png" alt="" />

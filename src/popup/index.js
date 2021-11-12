@@ -2,6 +2,13 @@ import React, { useCallback } from 'react'
 import ReactDOM from 'react-dom'
 import '../style/popup.less'
 
+// maingest.json
+// "page_action": {
+//   "default_title": "亚马逊商品分析",
+//   "default_icon": "assets/logo.png"
+//   "default_popup": "pages/popup.html"
+// },
+
 function App() {
   // get static files by chrome.runtime.getURL
   const logo = chrome.runtime.getURL('assets/logo.png')
