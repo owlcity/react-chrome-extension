@@ -9,6 +9,9 @@ import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import './content.less'
 import './insertDom'
+let corner = 0
+let loadedContent = false
+
 const fabStyle = {
   position: 'fixed',
   bottom: 26,
@@ -22,7 +25,7 @@ const fabStyle1 = {
 }
 function App() {
   const [loginValue, setLoginValue] = useState(false)
-  const [corner, setCorner] = useState(0)
+  const [pop, setPop] = useState(0)
   const theme = useTheme()
   const transitionDuration = {
     enter: theme.transitions.duration.enteringScreen,
@@ -34,43 +37,66 @@ function App() {
       setLoginValue(true)
     }
   })
+  /**
+   * 为什么要这样写 用户每次点击插件图标时，content.js 都会被执行 所以要使用全局变量
+   * https://juejin.cn/post/6970912734086955045
+   *  */
+  const setCorner = (status) => {
+    corner = status
+    setPop(corner)
+  }
+  if (!loadedContent) {
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      console.log(request.info)
+      // 这里是返回给bg的内容
+      // console.log('------------')
+      // console.log('corner---', corner)
+      let status = corner ? 0 : 1
+      setCorner(status)
+      // sendResponse('get the message')
+    })
+    loadedContent = true
+  }
 
   const closeExt = () => {
-    setCorner(0)
+    let status = corner ? 0 : 1
+    setCorner(status)
   }
   const handleLogin = (state) => {
     setLoginValue(state)
   }
   return (
     <div>
-      {corner ? (
+      {pop ? (
         <div>
           {loginValue ? (
             <TableData closeExt={closeExt} handleLogin={handleLogin}></TableData>
           ) : (
-            <SignIn handleLogin={handleLogin}></SignIn>
+            <SignIn closeExt={closeExt} handleLogin={handleLogin}></SignIn>
           )}
         </div>
       ) : (
-        <Zoom
-          in={corner === 0}
-          timeout={transitionDuration}
-          style={{
-            transitionDelay: `${corner === 0 ? transitionDuration.exit : 0}ms`,
-          }}
-          unmountOnExit
-        >
-          <Fab
-            sx={fabStyle}
-            aria-label="Add"
-            color="primary"
-            onClick={() => {
-              setCorner(1)
+        <div className="extAddIcon">
+          <Zoom
+            in={corner === 0}
+            timeout={transitionDuration}
+            style={{
+              transitionDelay: `${corner === 0 ? transitionDuration.exit : 0}ms`,
             }}
+            unmountOnExit
           >
-            <AddIcon />
-          </Fab>
-        </Zoom>
+            <Fab
+              sx={fabStyle}
+              aria-label="Add"
+              color="primary"
+              onClick={() => {
+                closeExt()
+              }}
+            >
+              <AddIcon />
+            </Fab>
+          </Zoom>
+        </div>
       )}
     </div>
   )

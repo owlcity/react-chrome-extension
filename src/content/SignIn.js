@@ -11,7 +11,6 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import { configApi } from '../config'
 export default function SignIn(props) {
   const { closeExt, handleLogin } = props
-  console.log(closeExt)
   const [open, setOpen] = useState(false)
   const [fullWidth, setFullWidth] = useState(true)
   const [checked, setChecked] = useState(true)

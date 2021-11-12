@@ -4,6 +4,33 @@ chrome.runtime.onInstalled.addListener((installedDetails) => {
     console.log('chrome extension update success')
   }
 })
+chrome.pageAction.onClicked.addListener(function (tab) {
+  // bg ---> content
+  chrome.tabs.query(
+    {
+      active: true,
+      currentWindow: true,
+    },
+    (tabs) => {
+      let message = {
+        // info: '来自bg的情书💌',
+        info: 'send-content',
+      }
+      chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
+        console.log('bg=>content')
+        console.log(res)
+      })
+    },
+  )
+
+  // if (tab.url.indexOf("https://inbox.google.com/*") != -1) {
+  //     chrome.tabs.executeScript(tab.id, {
+  //         "file": "clicky.js"
+  //     }, function () {
+  //         console.log("Script Executed .. ");
+  //     });
+  // }
+})
 
 // background.js
 chrome.runtime.onInstalled.addListener(function () {
