@@ -1,17 +1,18 @@
 import $ from 'jquery'
 import { configApi } from '../config'
-var parentEl = $('.s-main-slot')
-var matches = parentEl.find('div[data-asin]')
-var asinList = []
-for (var i = 0; i < matches.length; i++) {
-  // console.log(matches[i].getAttribute('data-asin'))
-  var asin = matches[i].getAttribute('data-asin')
-  if (asin) {
-    asinList.push(asin)
-  }
-}
 
 export const getableData = () => {
+  var parentEl = $('.s-main-slot')
+  var matches = parentEl.find('div[data-asin]')
+  var asinList = []
+  for (var i = 0; i < matches.length; i++) {
+    // console.log(matches[i].getAttribute('data-asin'))
+    var asin = matches[i].getAttribute('data-asin')
+    if (asin) {
+      asinList.push(asin)
+    }
+  }
+  console.log(asinList)
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage(
       {

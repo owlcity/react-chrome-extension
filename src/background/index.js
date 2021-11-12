@@ -11,12 +11,12 @@ chrome.pageAction.onClicked.addListener(function (tab) {
       active: true,
       currentWindow: true,
     },
-    (tabs) => {
+    function (tabs) {
       let message = {
         // info: '来自bg的情书💌',
         info: 'send-content',
       }
-      chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
+      chrome.tabs.sendMessage(tabs[0].id, message, function (res) {
         console.log('bg=>content')
         console.log(res)
       })

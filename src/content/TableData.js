@@ -153,6 +153,14 @@ export default function BasicTable(props) {
   const [userinfo, setUserinfo] = useState(null)
   const [open, setOpen] = useState(false)
 
+  var previousUrl = ''
+  var observer = new MutationObserver(function (mutations) {
+    if (location.href !== previousUrl) {
+      previousUrl = location.href
+      console.log(`URL changed to ${location.href}`)
+    }
+  })
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
@@ -187,10 +195,6 @@ export default function BasicTable(props) {
           token: userinfo.userinfo.token,
           accountId: userinfo.userinfo.id,
           asin: data.asin,
-          productName: data.name,
-          productImg: data.imageUrl,
-          star: data.rating,
-          price: data.price,
         },
       },
       (json) => {
@@ -204,14 +208,8 @@ export default function BasicTable(props) {
       setLoading(true)
     }, 2000)
   }
-  useEffect(() => {
-    chrome.storage.local.get(['testinfo'], function (result) {
-      console.log('--------------')
-      console.log(result)
-      if (result.testinfo) {
-        setUserinfo(result.testinfo)
-      }
-    })
+
+  const getTableList = () => {
     // 获取列表数据
     getableData().then((res) => {
       setRows(res.data)
@@ -247,6 +245,16 @@ export default function BasicTable(props) {
         estRevenue: (estRevenue / length).toFixed(2),
       })
     })
+  }
+  useEffect(() => {
+    chrome.storage.local.get(['testinfo'], function (result) {
+      // console.log('--------------')
+      // console.log(result)
+      if (result.testinfo) {
+        setUserinfo(result.testinfo)
+      }
+    })
+    getTableList()
   }, [])
   return (
     <Fragment>
@@ -351,23 +359,25 @@ export default function BasicTable(props) {
                       >
                         <TableCell align="center">
                           <div className="cell-wrap cell-wrap-1">
-                            <img src={row.imageUrl} alt="" />
-                            <div className="cell-desc">
-                              <div>{row.name}</div>
-                              <p>
-                                {row.asin}
-                                <i>
-                                  <VoiceChatIcon color="#0560e5"></VoiceChatIcon>
-                                </i>
-                                <span
-                                  onClick={() => {
-                                    handleMinior(row)
-                                  }}
-                                >
-                                  监控
-                                </span>
-                              </p>
-                            </div>
+                            <a href={`https://www.amazon.com/-/zh/dp/${row.asin}`} target="_blank">
+                              <img src={row.imageUrl} alt="" />
+                              <div className="cell-desc">
+                                <div>{row.name}</div>
+                                <p>
+                                  {row.asin}
+                                  <i>
+                                    <VoiceChatIcon color="#0560e5"></VoiceChatIcon>
+                                  </i>
+                                  <span
+                                    onClick={() => {
+                                      handleMinior(row)
+                                    }}
+                                  >
+                                    监控
+                                  </span>
+                                </p>
+                              </div>
+                            </a>
                           </div>
                         </TableCell>
                         <TableCell align="center">{row.estimatedSales}</TableCell>
