@@ -4,6 +4,28 @@ chrome.runtime.onInstalled.addListener((installedDetails) => {
     console.log('chrome extension update success')
   }
 })
+// 监听url 变化
+// console.log(window.location.href)
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+  console.log(tabId)
+  console.log(changeInfo)
+  console.log(tab)
+  if (changeInfo.url == undefined) {
+    return
+  }
+  var url = tab.url
+  if (url != undefined && url.indexOf('www.amazon.com')) {
+    // do something
+    let message = {
+      // info: '来自bg的情书💌',
+      info: 'url-change',
+    }
+    chrome.tabs.sendMessage(tabId, message, function (res) {
+      console.log('url-change')
+      console.log(res)
+    })
+  }
+})
 chrome.pageAction.onClicked.addListener(function (tab) {
   // bg ---> content
   chrome.tabs.query(
@@ -12,6 +34,7 @@ chrome.pageAction.onClicked.addListener(function (tab) {
       currentWindow: true,
     },
     function (tabs) {
+      // console.log(tabs)
       let message = {
         // info: '来自bg的情书💌',
         info: 'send-content',

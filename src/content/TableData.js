@@ -142,6 +142,7 @@ function EnhancedTableHead(props) {
     </TableHead>
   )
 }
+let loadingCon = false
 export default function BasicTable(props) {
   const { handleLogin } = props
   const [rows, setRows] = useState([])
@@ -152,14 +153,27 @@ export default function BasicTable(props) {
   const [info, setInfo] = useState({})
   const [userinfo, setUserinfo] = useState(null)
   const [open, setOpen] = useState(false)
+  const [url, setUrl] = useState(window.location.href)
 
-  var previousUrl = ''
-  var observer = new MutationObserver(function (mutations) {
-    if (location.href !== previousUrl) {
-      previousUrl = location.href
-      console.log(`URL changed to ${location.href}`)
-    }
-  })
+  if (!loadingCon) {
+    loadingCon = true
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      console.log(request.info)
+      // 这里是返回给bg的内容
+      // console.log('------------')
+      // console.log('corner---', corner)
+      if (request.info === 'url-change') {
+        console.log('----------')
+        setLoading(false)
+        // document.onload 执行
+        setTimeout(() => {
+          getTableList()
+        }, 1500)
+        console.log('url-change')
+      }
+      // sendResponse('get the message')
+    })
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -204,9 +218,11 @@ export default function BasicTable(props) {
   }
   const handleFresh = () => {
     setLoading(false)
-    setTimeout(() => {
-      setLoading(true)
-    }, 2000)
+    // setLoading(false)
+    getTableList()
+    // setTimeout(() => {
+    //   setLoading(true)
+    // }, 2000)
   }
 
   const getTableList = () => {
@@ -255,7 +271,7 @@ export default function BasicTable(props) {
       }
     })
     getTableList()
-  }, [])
+  }, [url])
   return (
     <Fragment>
       <Draggable disabled={disabled}>
@@ -294,44 +310,40 @@ export default function BasicTable(props) {
                 </span>
               </div>
             </div>
-            <div className="box-wrap">
-              <div className="box-item">
-                <div className="box-title">平均月销量</div>
-                <div className="box-info">
-                  {!loading ? <Skeleton height={20} /> : info.estimatedSales}
+
+            <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
+              <div className="box-wrap">
+                <div className="box-item">
+                  <div className="box-title">平均月销量</div>
+                  <div className="box-info">
+                    {!loading ? <Skeleton height={20} /> : info.estimatedSales}
+                  </div>
+                </div>
+                <div className="box-item">
+                  <div className="box-title">平均日销量</div>
+                  <div className="box-info">
+                    {!loading ? <Skeleton height={20} /> : info.estimatedDaySales}
+                  </div>
+                </div>
+
+                <div className="box-item">
+                  <div className="box-title">平均售价</div>
+                  <div className="box-info">{!loading ? <Skeleton height={20} /> : info.price}</div>
+                </div>
+
+                <div className="box-item">
+                  <div className="box-title">平均净利润</div>
+                  <div className="box-info">{!loading ? <Skeleton height={20} /> : info.net}</div>
+                </div>
+
+                <div className="box-item">
+                  <div className="box-title">平均月收入</div>
+                  <div className="box-info">
+                    {!loading ? <Skeleton height={20} /> : info.estRevenue}
+                  </div>
                 </div>
               </div>
-              <div className="box-item">
-                <div className="box-title">平均日销量</div>
-                <div className="box-info">
-                  {!loading ? <Skeleton height={20} /> : info.estimatedDaySales}
-                </div>
-              </div>
-
-              <div className="box-item">
-                <div className="box-title">平均售价</div>
-                <div className="box-info">{!loading ? <Skeleton height={20} /> : info.price}</div>
-              </div>
-
-              <div className="box-item">
-                <div className="box-title">平均净利润</div>
-                <div className="box-info">{!loading ? <Skeleton height={20} /> : info.net}</div>
-              </div>
-
-              <div className="box-item">
-                <div className="box-title">平均月收入</div>
-                <div className="box-info">
-                  {!loading ? <Skeleton height={20} /> : info.estRevenue}
-                </div>
-              </div>
-            </div>
-            <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
-              <Table
-                className="table-root"
-                stickyHeader
-                sx={{ minWidth: 650 }}
-                aria-label="sticky table"
-              >
+              <Table className="table-root" sx={{ minWidth: 650 }} aria-label="sticky table">
                 {/* <TableHead className="table-wrap-head">
             <TableRow>
               <TableCell align="center">名称</TableCell>
@@ -361,23 +373,35 @@ export default function BasicTable(props) {
                           <div className="cell-wrap cell-wrap-1">
                             <a href={`https://www.amazon.com/-/zh/dp/${row.asin}`} target="_blank">
                               <img src={row.imageUrl} alt="" />
-                              <div className="cell-desc">
-                                <div>{row.name}</div>
-                                <p>
-                                  {row.asin}
-                                  <i>
-                                    <VoiceChatIcon color="#0560e5"></VoiceChatIcon>
-                                  </i>
-                                  <span
-                                    onClick={() => {
-                                      handleMinior(row)
-                                    }}
-                                  >
-                                    监控
-                                  </span>
-                                </p>
-                              </div>
                             </a>
+                            <div className="cell-desc">
+                              <div>
+                                <a
+                                  href={`https://www.amazon.com/-/zh/dp/${row.asin}`}
+                                  target="_blank"
+                                >
+                                  {row.name}
+                                </a>
+                              </div>
+                              <p>
+                                <a
+                                  href={`https://www.amazon.com/-/zh/dp/${row.asin}`}
+                                  target="_blank"
+                                >
+                                  {row.asin}
+                                </a>
+                                <i>
+                                  <VoiceChatIcon color="#0560e5"></VoiceChatIcon>
+                                </i>
+                                <span
+                                  onClick={() => {
+                                    handleMinior(row)
+                                  }}
+                                >
+                                  监控
+                                </span>
+                              </p>
+                            </div>
                           </div>
                         </TableCell>
                         <TableCell align="center">{row.estimatedSales}</TableCell>

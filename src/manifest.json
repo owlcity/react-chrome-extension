@@ -7,7 +7,7 @@
     "default_title": "西瓜出海",
     "default_icon": "assets/logo.png"
   },
-  "permissions": ["https://www.amazon.com/*", "storage", "declarativeContent"],
+  "permissions": ["https://www.amazon.com/*", "storage", "declarativeContent", "tabs"],
   "homepage_url": "https://amz.57xg.com/",
   "background": {
     "scripts": ["js/background.js"]

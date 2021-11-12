@@ -10,7 +10,7 @@
 }
 .extension-wrap {
   width: 100%;
-  height: 440px;
+  height: 500px;
   bottom: 0;
   left: 0;
   position: fixed;
@@ -21,7 +21,8 @@
     transform: translate(0, 0) !important;
   }
   &.wrap-dragable {
-    width: 850px;
+    width: 920px;
+    height: 500px;
     left: 0;
     bottom: 20px;
   }
@@ -49,6 +50,7 @@
     th {
       padding: 8px;
       min-width: 120px;
+      text-indent: 12px;
     }
   }
   .table-root {
@@ -76,7 +78,7 @@
   justify-content: center;
   &.cell-wrap-1 {
     padding-left: 20px;
-    width: 180px;
+    width: 200px;
   }
   img {
     width: 40px;
@@ -85,17 +87,24 @@
   }
   .cell-desc {
     width: 145px;
+    margin-left: 5px;
     div {
       width: 145px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      a {
+        color: #333;
+      }
     }
     p {
       display: flex;
       align-items: center;
       margin-top: 3px;
-      color: #999;
+      a {
+        color: #999;
+      }
+
       i {
         position: relative;
         top: 3px;

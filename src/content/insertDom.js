@@ -12,7 +12,6 @@ export const getableData = () => {
       asinList.push(asin)
     }
   }
-  console.log(asinList)
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage(
       {
@@ -26,7 +25,11 @@ export const getableData = () => {
       (json) => {
         // console.log('------------')
         // console.log(json)
-        let asignArr = json.data
+        let asignArr = json.data || []
+        if (!asignArr.length) {
+          console.log('暂无数据')
+          return
+        }
         asignArr.map((item) => {
           if (item.asin) {
             var asinhtml = `

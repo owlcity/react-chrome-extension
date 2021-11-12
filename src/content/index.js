@@ -51,8 +51,10 @@ function App() {
       // 这里是返回给bg的内容
       // console.log('------------')
       // console.log('corner---', corner)
-      let status = corner ? 0 : 1
-      setCorner(status)
+      if (request.info === 'send-content') {
+        let status = corner ? 0 : 1
+        setCorner(status)
+      }
       // sendResponse('get the message')
     })
     loadedContent = true
