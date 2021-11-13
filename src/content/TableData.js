@@ -21,6 +21,7 @@ import Grid from '@material-ui/core/Grid'
 import Rating from '@material-ui/core/Rating'
 import Stack from '@material-ui/core/Stack'
 import Snackbar from '@material-ui/core/Snackbar'
+import Modal from '@material-ui/core/Modal'
 import { getableData } from './insertDom'
 import { configApi } from '../config'
 
@@ -152,7 +153,9 @@ export default function BasicTable(props) {
   const [loading, setLoading] = useState(false)
   const [info, setInfo] = useState({})
   const [userinfo, setUserinfo] = useState(null)
+  const [msg, setMsg] = useState('')
   const [open, setOpen] = useState(false)
+  const [modal, setModal] = useState(false)
   const [url, setUrl] = useState(window.location.href)
 
   if (!loadingCon) {
@@ -183,6 +186,10 @@ export default function BasicTable(props) {
   const handleClose = () => {
     props.closeExt()
   }
+
+  const handleModal = () => {
+    setModal(false)
+  }
   const miniorClose = () => {
     setOpen(false)
   }
@@ -199,20 +206,26 @@ export default function BasicTable(props) {
   }
 
   const handleMinior = (data, newState) => {
-    setOpen(true)
     chrome.runtime.sendMessage(
       {
         // 里面的值应该可以自定义，用于判断哪个请求之类的
         type: 'post',
-        url: configApi + '/api/index/saveProductCommentMonitor', // 需要请求的url
+        url: configApi + '/api/index/addProductMonitor', // 需要请求的url
         data: {
           token: userinfo.userinfo.token,
           accountId: userinfo.userinfo.id,
           asin: data.asin,
+          country: data.country,
         },
       },
       (json) => {
-        console.log(json)
+        if (json.code === 403) {
+          // 超过查询次数
+          setModal(true)
+        } else {
+          setOpen(true)
+          setMsg(json.msg)
+        }
       },
     )
   }
@@ -311,7 +324,7 @@ export default function BasicTable(props) {
               </div>
             </div>
 
-            <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
+            <TableContainer component={Paper} sx={{ maxHeight: 640 }}>
               <div className="box-wrap">
                 <div className="box-item">
                   <div className="box-title">平均月销量</div>
@@ -444,6 +457,31 @@ export default function BasicTable(props) {
           </div>
         </div>
       </Draggable>
+      <Modal
+        open={modal}
+        onClose={handleModal}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <div className="modal-wrap">
+          <div className="modal-desc">
+            监控数量已达上限 <br /> 升级会员立即提升监控数量
+          </div>
+          <div className="button-wrap">
+            <div
+              className="modal-button modal-button-1"
+              onClick={() => {
+                setModal(false)
+              }}
+            >
+              取消
+            </div>
+            <a className="modal-button" href="http://amzon.57xg.com" target="_blank">
+              升级会员
+            </a>
+          </div>
+        </div>
+      </Modal>
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
@@ -452,7 +490,7 @@ export default function BasicTable(props) {
         open={open}
         autoHideDuration={4000}
         onClose={miniorClose}
-        message="已加入监控"
+        message={msg}
       />
     </Fragment>
   )

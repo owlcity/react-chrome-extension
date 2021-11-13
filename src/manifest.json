@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "西瓜出海",
-  "description": "亚马逊商品销量价格分析工具",
+  "description": "一站式亚马逊商家智慧选品，大数据选品专家",
   "version": "1.0.1",
   "page_action": {
     "default_title": "西瓜出海",
