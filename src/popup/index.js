@@ -15,7 +15,7 @@ function App() {
   const goToOptions = useCallback(() => {
     // go to options page
     // chrome.runtime.openOptionsPage()
-    window.open('https://amz.demo.57xg.com/')
+    window.open('https://amz.57xg.com/')
   }, [])
   return (
     <div className="app">
