@@ -110,7 +110,7 @@ export default function SignIn(props) {
           </div>
           <div className="login-desc">
             还没有账号?
-            <a href="https://amz.57xg.com/" target="_blank">
+            <a href="http://amz.57xg.com/#/register" target="_blank">
               免费注册
             </a>
           </div>

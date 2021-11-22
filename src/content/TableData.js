@@ -161,12 +161,12 @@ export default function BasicTable(props) {
   if (!loadingCon) {
     loadingCon = true
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      console.log(request.info)
+      // console.log(request.info)
       // 这里是返回给bg的内容
       // console.log('------------')
       // console.log('corner---', corner)
       if (request.info === 'url-change') {
-        console.log('----------')
+        // console.log('----------')
         setLoading(false)
         // document.onload 执行
         setTimeout(() => {
@@ -194,7 +194,7 @@ export default function BasicTable(props) {
     setOpen(false)
   }
   const handleExit = () => {
-    console.log(handleLogin)
+    // console.log(handleLogin)
     chrome.storage.local.clear(function () {
       handleLogin(false)
       handleClose()
@@ -240,40 +240,45 @@ export default function BasicTable(props) {
 
   const getTableList = () => {
     // 获取列表数据
-    getableData().then((res) => {
-      setRows(res.data)
-      setLoading(true)
-      let length = res.data.length
-      if (!length) {
-        setInfo({
-          estimatedSales: '暂无数据',
-          estimatedDaySales: '暂无数据',
-          price: '暂无数据',
-          net: '暂无数据',
-          estRevenue: '暂无数据',
+    getableData()
+      .then((res) => {
+        setRows(res.data)
+        setLoading(true)
+        let length = res.data.length
+        if (!length) {
+          setInfo({
+            estimatedSales: '暂无数据',
+            estimatedDaySales: '暂无数据',
+            price: '暂无数据',
+            net: '暂无数据',
+            estRevenue: '暂无数据',
+          })
+          return
+        }
+        let estimatedSales = 0
+        let estimatedDaySales = 0
+        let price = 0
+        let net = 0
+        let estRevenue = 0
+        res.data.map((item) => {
+          estimatedSales += Number(item.estimatedSales)
+          estimatedDaySales += Number(item.estimatedDaySales)
+          price += Number(item.price)
+          net += Number(item.net)
+          estRevenue += Number(item.estRevenue)
         })
-        return
-      }
-      let estimatedSales = 0
-      let estimatedDaySales = 0
-      let price = 0
-      let net = 0
-      let estRevenue = 0
-      res.data.map((item) => {
-        estimatedSales += Number(item.estimatedSales)
-        estimatedDaySales += Number(item.estimatedDaySales)
-        price += Number(item.price)
-        net += Number(item.net)
-        estRevenue += Number(item.estRevenue)
+        setInfo({
+          estimatedSales: (estimatedSales / length).toFixed(2),
+          estimatedDaySales: (estimatedDaySales / length).toFixed(2),
+          price: (price / length).toFixed(2),
+          net: (net / length).toFixed(2),
+          estRevenue: (estRevenue / length).toFixed(2),
+        })
       })
-      setInfo({
-        estimatedSales: (estimatedSales / length).toFixed(2),
-        estimatedDaySales: (estimatedDaySales / length).toFixed(2),
-        price: (price / length).toFixed(2),
-        net: (net / length).toFixed(2),
-        estRevenue: (estRevenue / length).toFixed(2),
+      .catch((err) => {
+        // console.log(err)
+        this.handleExit()
       })
-    })
   }
   useEffect(() => {
     chrome.storage.local.get(['testinfo'], function (result) {
