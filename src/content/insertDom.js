@@ -30,17 +30,27 @@ export const getableData = () => {
           },
           (json) => {
             // console.log(json)
+            if (json.code !== 200) {
+              reject(json)
+            }
             let asignArr = json.data || []
             if (!asignArr.length) {
               console.log('暂无数据')
               return
             }
+            /**
+             * resultarr 排序后数组
+             * 返回数据与请求参数数组顺序不一致,排序
+             */
             let resultarr = []
             asinList.map((item) => {
               let arr = asignArr.filter((list) => {
                 return list.asin === item
               })
-              resultarr.push(arr[0])
+              // 防止返回数据不一致出现undefind
+              if (arr[0]) {
+                resultarr.push(arr[0])
+              }
             })
             // console.log('-------------')
             // console.log(resultarr)

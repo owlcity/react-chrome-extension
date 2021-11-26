@@ -42,12 +42,21 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }))
 function descendingComparator(a, b, orderBy) {
+  // console.log('------------')
+  // console.log(a)
+  // console.log(b)
+  // console.log(orderBy)
+  // console.log('------------')
+  if (!a || !b) {
+    return 0
+  }
   if (Number(b[orderBy]) < Number(a[orderBy])) {
     return -1
   }
   if (Number(b[orderBy]) > Number(a[orderBy])) {
     return 1
   }
+
   return 0
 }
 
@@ -276,8 +285,12 @@ export default function BasicTable(props) {
         })
       })
       .catch((err) => {
-        // console.log(err)
-        this.handleExit()
+        console.log(err)
+        if (err.code === 401) {
+          handleLogin(false)
+        } else {
+          // handleExit()
+        }
       })
   }
   useEffect(() => {
@@ -381,55 +394,62 @@ export default function BasicTable(props) {
                   rowCount={rows.length}
                 />
                 <TableBody>
+                  {/* stableSort(rows, getComparator(order, orderBy)).map((row, index) */}
                   {rows.length && loading ? (
-                    stableSort(rows, getComparator(order, orderBy)).map((row, index) => (
-                      <TableRow
-                        key={index}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      >
-                        <TableCell align="center">
-                          <div className="cell-wrap cell-wrap-1">
-                            <a href={`https://www.amazon.com/-/zh/dp/${row.asin}`} target="_blank">
-                              <img src={row.imageUrl} alt="" />
-                            </a>
-                            <div className="cell-desc">
-                              <div>
-                                <a
-                                  href={`https://www.amazon.com/-/zh/dp/${row.asin}`}
-                                  target="_blank"
-                                >
-                                  {row.name}
-                                </a>
+                    stableSort(rows, getComparator(order, orderBy)).map((row, index) => {
+                      console.log(rows)
+                      console.log(row)
+                      return (
+                        <TableRow
+                          key={index}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell align="center">
+                            <div className="cell-wrap cell-wrap-1">
+                              <a
+                                href={`https://www.amazon.com/-/zh/dp/${row.asin}`}
+                                target="_blank"
+                              >
+                                <img src={row.imageUrl} alt="" />
+                              </a>
+                              <div className="cell-desc">
+                                <div>
+                                  <a
+                                    href={`https://www.amazon.com/-/zh/dp/${row.asin}`}
+                                    target="_blank"
+                                  >
+                                    {row.name}
+                                  </a>
+                                </div>
+                                <p>
+                                  <a
+                                    href={`https://www.amazon.com/-/zh/dp/${row.asin}`}
+                                    target="_blank"
+                                  >
+                                    {row.asin}
+                                  </a>
+                                  <i>
+                                    <VoiceChatIcon color="#0560e5"></VoiceChatIcon>
+                                  </i>
+                                  <span
+                                    onClick={() => {
+                                      handleMinior(row)
+                                    }}
+                                  >
+                                    监控
+                                  </span>
+                                </p>
                               </div>
-                              <p>
-                                <a
-                                  href={`https://www.amazon.com/-/zh/dp/${row.asin}`}
-                                  target="_blank"
-                                >
-                                  {row.asin}
-                                </a>
-                                <i>
-                                  <VoiceChatIcon color="#0560e5"></VoiceChatIcon>
-                                </i>
-                                <span
-                                  onClick={() => {
-                                    handleMinior(row)
-                                  }}
-                                >
-                                  监控
-                                </span>
-                              </p>
                             </div>
-                          </div>
-                        </TableCell>
-                        <TableCell align="center">{row.estimatedSales}</TableCell>
-                        <TableCell align="center">{row.estimatedDaySales}</TableCell>
-                        <TableCell align="center">{row.price}</TableCell>
-                        <TableCell align="center">{Number(row.net).toFixed(2)}</TableCell>
-                        <TableCell align="center">{row.estRevenue}</TableCell>
-                        <TableCell align="center">
-                          {row.rating}
-                          {/* <Stack spacing={1}>
+                          </TableCell>
+                          <TableCell align="center">{row.estimatedSales}</TableCell>
+                          <TableCell align="center">{row.estimatedDaySales}</TableCell>
+                          <TableCell align="center">{row.price}</TableCell>
+                          <TableCell align="center">{Number(row.net).toFixed(2)}</TableCell>
+                          <TableCell align="center">{row.estRevenue}</TableCell>
+                          <TableCell align="center">
+                            {row.rating}
+                            {/* <Stack spacing={1}>
                           <Rating
                             name="half-rating-read"
                             defaultValue={Number(row.rating)}
@@ -437,10 +457,11 @@ export default function BasicTable(props) {
                             readOnly
                           />
                         </Stack> */}
-                        </TableCell>
-                        <TableCell align="center">{row.listedAtDate}</TableCell>
-                      </TableRow>
-                    ))
+                          </TableCell>
+                          <TableCell align="center">{row.listedAtDate}</TableCell>
+                        </TableRow>
+                      )
+                    })
                   ) : (
                     <TableRow>
                       <TableCell align="right" colSpan={8} rowSpan={3}>
