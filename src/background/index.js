@@ -65,6 +65,33 @@ chrome.runtime.onInstalled.addListener(function () {
           new chrome.declarativeContent.PageStateMatcher({
             pageUrl: { urlContains: 'amazon.com' },
           }),
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { urlContains: 'amazon.in' },
+          }),
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { urlContains: 'amazon.de' },
+          }),
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { urlContains: 'amazon.fr' },
+          }),
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { urlContains: 'amazon.ca' },
+          }),
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { urlContains: 'amazon.it' },
+          }),
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { urlContains: 'amazon.es' },
+          }),
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { urlContains: 'amazon.co.uk' },
+          }),
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { urlContains: 'amazon.co.jp' },
+          }),
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { urlContains: 'amazon.com.mx' },
+          }),
         ],
         actions: [new chrome.declarativeContent.ShowPageAction()],
       },

@@ -7,7 +7,31 @@
     "default_title": "西瓜出海",
     "default_icon": "assets/logo.png"
   },
-  "permissions": ["https://www.amazon.com/*", "storage", "declarativeContent", "tabs"],
+  "permissions": [
+    "https://www.amazon.com/*",
+    "http://www.amazon.com/*",
+    "https://www.amazon.in/*",
+    "http://www.amazon.in/*",
+    "https://www.amazon.de/*",
+    "http://www.amazon.de/*",
+    "https://www.amazon.fr/*",
+    "http://www.amazon.fr/*",
+    "https://www.amazon.ca/*",
+    "http://www.amazon.ca/*",
+    "https://www.amazon.it/*",
+    "http://www.amazon.it/*",
+    "https://www.amazon.es/*",
+    "http://www.amazon.es/*",
+    "https://www.amazon.co.uk/*",
+    "http://www.amazon.co.uk/*",
+    "https://www.amazon.co.jp/*",
+    "http://www.amazon.co.jp/*",
+    "https://www.amazon.com.mx/*",
+    "http://www.amazon.com.mx/*",
+    "storage",
+    "declarativeContent",
+    "tabs"
+  ],
   "homepage_url": "https://amz.57xg.com/",
   "background": {
     "scripts": ["js/background.js"]
@@ -20,7 +44,28 @@
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "content_scripts": [
     {
-      "matches": ["http://www.amazon.com/s?k=*", "https://www.amazon.com/s?k=*"],
+      "matches": [
+        "http://www.amazon.com/s?k=*",
+        "https://www.amazon.com/s?k=*",
+        "http://www.amazon.in/s?k=*",
+        "https://www.amazon.in/s?k=*",
+        "http://www.amazon.de/s?k=*",
+        "https://www.amazon.de/s?k=*",
+        "http://www.amazon.fr/s?k=*",
+        "https://www.amazon.fr/s?k=*",
+        "http://www.amazon.it/s?k=*",
+        "https://www.amazon.it/s?k=*",
+        "http://www.amazon.es/s?k=*",
+        "https://www.amazon.es/s?k=*",
+        "http://www.amazon.ca/s?k=*",
+        "https://www.amazon.ca/s?k=*",
+        "http://www.amazon.co.uk/s?k=*",
+        "https://www.amazon.co.uk/s?k=*",
+        "http://www.amazon.co.jp/s?k=*",
+        "https://www.amazon.co.jp/s?k=*",
+        "http://www.amazon.com.mx/s?k=*",
+        "https://www.amazon.com.mx/s?k=*"
+      ],
       "js": ["js/content.js"],
       "run_at": "document_end"
     }

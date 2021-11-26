@@ -242,9 +242,9 @@ export default function BasicTable(props) {
     // 获取列表数据
     getableData()
       .then((res) => {
-        setRows(res.data)
+        setRows(res)
         setLoading(true)
-        let length = res.data.length
+        let length = res.length
         if (!length) {
           setInfo({
             estimatedSales: '暂无数据',
@@ -260,7 +260,7 @@ export default function BasicTable(props) {
         let price = 0
         let net = 0
         let estRevenue = 0
-        res.data.map((item) => {
+        res.map((item) => {
           estimatedSales += Number(item.estimatedSales)
           estimatedDaySales += Number(item.estimatedDaySales)
           price += Number(item.price)

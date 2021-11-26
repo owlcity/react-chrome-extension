@@ -3,7 +3,7 @@ import { configApi } from '../config'
 
 export const getableData = () => {
   var parentEl = $('.s-main-slot')
-  var matches = parentEl.find('div[data-asin]')
+  var matches = parentEl.children('div[data-asin]').not('[hidden]')
   var asinList = []
   for (var i = 0; i < matches.length; i++) {
     // console.log(matches[i].getAttribute('data-asin'))
@@ -12,6 +12,7 @@ export const getableData = () => {
       asinList.push(asin)
     }
   }
+  console.log(asinList)
   return new Promise((resolve, reject) => {
     chrome.storage.local.get(['testinfo'], function (result) {
       // console.log('--------------')
@@ -28,24 +29,36 @@ export const getableData = () => {
             },
           },
           (json) => {
-            // console.log('------------')
             // console.log(json)
             let asignArr = json.data || []
             if (!asignArr.length) {
               console.log('暂无数据')
               return
             }
+            let resultarr = []
+            asinList.map((item) => {
+              let arr = asignArr.filter((list) => {
+                return list.asin === item
+              })
+              resultarr.push(arr[0])
+            })
+            // console.log('-------------')
+            // console.log(resultarr)
+            // list === asignArr['asin']
+            // resultarr.push(item)
+            // console.log(asinList)
+
             asignArr.map((item) => {
               if (item.asin) {
                 var asinhtml = `
                 <div class="asin-wrap">
                   <div class="asin-title">ASIN: ${item.asin}</div>
                   <div class="asin-item">售价: ${item.price}</div>
-                  <div class="asin-item">日销量: ${item.estimatedDaySales}</div>
-                  <div class="asin-item">月销量: ${item.estimatedSales}</div>
-                  <div class="asin-item">净利润: ${item.net}</div>
-                  <div class="asin-item">月收入: ${item.estRevenue}</div>
-                  <div class="asin-item">上架时间: ${item.listedAtDate}</div>
+                  <div class="asin-item">日销量: ${item.estimatedDaySales || '暂无数据'}</div>
+                  <div class="asin-item">月销量: ${item.estimatedSales || '暂无数据'}</div>
+                  <div class="asin-item">净利润: ${item.net || '暂无数据'}</div>
+                  <div class="asin-item">月收入: ${item.estRevenue || '暂无数据'}</div>
+                  <div class="asin-item">上架时间: ${item.listedAtDate || '暂无数据'}</div>
                 </div>`
                 // console.log('------', asinhtml)
                 // 插入dom
@@ -60,7 +73,9 @@ export const getableData = () => {
                 }
               }
             })
-            resolve(json)
+            // console.log('------------')
+            // console.log(resultarr)
+            resolve(resultarr)
           },
         )
       }
