@@ -12,11 +12,45 @@ export const getableData = () => {
       asinList.push(asin)
     }
   }
-  console.log(asinList)
+  // console.log(asinList)
+  const getCountry = () => {
+    let hostname = window.location.hostname
+    // let country = 'us'
+    switch (hostname) {
+      case 'www.amazon.com':
+        return 'us'
+      case 'www.amazon.in':
+        return 'in'
+      case 'www.amazon.de':
+        return 'de'
+      case 'www.amazon.fr':
+        return 'fr'
+      case 'www.amazon.ca':
+        return 'ca'
+      case 'www.amazon.it':
+        return 'it'
+      case 'www.amazon.es':
+        return 'es'
+      case 'www.amazon.co.jp':
+        return 'jp'
+      case 'www.amazon.com.mx':
+        //  country = 'mx';
+        return 'mx'
+      case 'www.amazon.co.uk':
+        //  country = 'mx';
+        return 'uk'
+
+      default:
+        // country = 'us';
+        return 'us'
+    }
+  }
   return new Promise((resolve, reject) => {
     chrome.storage.local.get(['testinfo'], function (result) {
       // console.log('--------------')
       // console.log(result.testinfo)
+      // console.log(getCountry())
+      let country = getCountry()
       if (result.testinfo) {
         chrome.runtime.sendMessage(
           {
@@ -26,16 +60,20 @@ export const getableData = () => {
             data: {
               asinList: asinList,
               token: result.testinfo.userinfo.token,
+              country,
             },
           },
           (json) => {
             // console.log(json)
-            if (json.code !== 200) {
+            if (!json || json.code !== 200) {
               reject(json)
             }
             let asignArr = json.data || []
             if (!asignArr.length) {
               console.log('暂无数据')
+              resolve({
+                empty: true,
+              })
               return
             }
             /**

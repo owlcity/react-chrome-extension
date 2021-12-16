@@ -90,7 +90,7 @@ export default function SignIn(props) {
             placeholder="请输入密码"
           />
           <div className="login-info">
-            <a href="https://amz.57xg.com/" target="_blank">
+            <a href={configApi + '/#/forgetpwd'} target="_blank">
               忘记密码
             </a>
             <FormControlLabel
@@ -110,7 +110,7 @@ export default function SignIn(props) {
           </div>
           <div className="login-desc">
             还没有账号?
-            <a href="http://amz.57xg.com/#/register" target="_blank">
+            <a href={configApi + '/#/register'} target="_blank">
               免费注册
             </a>
           </div>

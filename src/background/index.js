@@ -14,7 +14,17 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     return
   }
   var url = tab.url
-  if (url != undefined && url.indexOf('www.amazon.com')) {
+  if (
+    url != undefined &&
+    url.indexOf(
+      'amazon.com || amazon.in' ||
+        'amazon.de' ||
+        'amazon.fr' ||
+        'amazon.it' ||
+        'amazon.ca' ||
+        'amazon.es',
+    )
+  ) {
     // do something
     let message = {
       // info: '来自bg的情书💌',

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "西瓜出海",
   "description": "一站式亚马逊商家智慧选品，大数据选品专家",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "page_action": {
     "default_title": "西瓜出海",
     "default_icon": "assets/logo.png"
@@ -32,7 +32,7 @@
     "declarativeContent",
     "tabs"
   ],
-  "homepage_url": "https://amz.57xg.com/",
+  "homepage_url": "https://jindy123.com",
   "background": {
     "scripts": ["js/background.js"]
   },

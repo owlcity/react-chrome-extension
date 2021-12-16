@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import ReactDOM from 'react-dom'
 import '../style/popup.less'
+import { configApi } from '../config'
 
 // maingest.json
 // "page_action": {
@@ -15,7 +16,7 @@ function App() {
   const goToOptions = useCallback(() => {
     // go to options page
     // chrome.runtime.openOptionsPage()
-    window.open('https://amz.57xg.com/')
+    window.open(configApi)
   }, [])
   return (
     <div className="app">

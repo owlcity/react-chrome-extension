@@ -17,6 +17,7 @@ import Draggable from 'react-draggable'
 import { styled } from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
+import Alert from '@material-ui/core/Alert'
 import Grid from '@material-ui/core/Grid'
 import Rating from '@material-ui/core/Rating'
 import Stack from '@material-ui/core/Stack'
@@ -156,6 +157,7 @@ let loadingCon = false
 export default function BasicTable(props) {
   const { handleLogin } = props
   const [rows, setRows] = useState([])
+  const [empty, setEmpty] = useState(false)
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
   const [disabled, setDisabled] = useState(true)
@@ -253,6 +255,7 @@ export default function BasicTable(props) {
       .then((res) => {
         setRows(res)
         setLoading(true)
+
         let length = res.length
         if (!length) {
           setInfo({
@@ -262,6 +265,7 @@ export default function BasicTable(props) {
             net: '暂无数据',
             estRevenue: '暂无数据',
           })
+          setEmpty(true)
           return
         }
         let estimatedSales = 0
@@ -285,9 +289,11 @@ export default function BasicTable(props) {
         })
       })
       .catch((err) => {
+        console.log('-------------')
         console.log(err)
-        if (err.code === 401) {
-          handleLogin(false)
+        if (!err || err.code === 401) {
+          // handleLogin(false)
+          handleExit()
         } else {
           // handleExit()
         }
@@ -395,10 +401,13 @@ export default function BasicTable(props) {
                 />
                 <TableBody>
                   {/* stableSort(rows, getComparator(order, orderBy)).map((row, index) */}
+                  {/* {empty && (
+                    <div>
+                      <Alert severity="info">暂未抓取数据</Alert>
+                    </div>
+                  )} */}
                   {rows.length && loading ? (
                     stableSort(rows, getComparator(order, orderBy)).map((row, index) => {
-                      console.log(rows)
-                      console.log(row)
                       return (
                         <TableRow
                           key={index}
@@ -407,7 +416,7 @@ export default function BasicTable(props) {
                           <TableCell align="center">
                             <div className="cell-wrap cell-wrap-1">
                               <a
-                                href={`https://www.amazon.com/-/zh/dp/${row.asin}`}
+                                href={`https://www.jindy123.com/-/zh/dp/${row.asin}`}
                                 target="_blank"
                               >
                                 <img src={row.imageUrl} alt="" />
@@ -415,7 +424,7 @@ export default function BasicTable(props) {
                               <div className="cell-desc">
                                 <div>
                                   <a
-                                    href={`https://www.amazon.com/-/zh/dp/${row.asin}`}
+                                    href={`https://www.jindy123.com/-/zh/dp/${row.asin}`}
                                     target="_blank"
                                   >
                                     {row.name}
@@ -423,7 +432,7 @@ export default function BasicTable(props) {
                                 </div>
                                 <p>
                                   <a
-                                    href={`https://www.amazon.com/-/zh/dp/${row.asin}`}
+                                    href={`https://www.jindy123.com/-/zh/dp/${row.asin}`}
                                     target="_blank"
                                   >
                                     {row.asin}
@@ -502,7 +511,7 @@ export default function BasicTable(props) {
             >
               取消
             </div>
-            <a className="modal-button" href="http://amzon.57xg.com" target="_blank">
+            <a className="modal-button" href={configApi + '/#/vip'} target="_blank">
               升级会员
             </a>
           </div>

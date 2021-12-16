@@ -1,1 +1,1 @@
-export const configApi = 'https://amz.57xg.com'
+export const configApi = 'https://www.jindy123.com'
