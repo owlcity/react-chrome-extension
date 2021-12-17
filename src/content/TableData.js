@@ -323,7 +323,11 @@ export default function BasicTable(props) {
                 <span onClick={handleExit}>退出</span>
               </div>
               <div className="ext-m">
-                <img className="title-logo" src="http://h5.57xg.com/logoxg.png" alt="" />
+                <img
+                  className="title-logo"
+                  src="data:image/png;base64,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"
+                  alt=""
+                />
               </div>
               <div className="ext-r">
                 <span
@@ -415,26 +419,17 @@ export default function BasicTable(props) {
                         >
                           <TableCell align="center">
                             <div className="cell-wrap cell-wrap-1">
-                              <a
-                                href={`https://www.jindy123.com/-/zh/dp/${row.asin}`}
-                                target="_blank"
-                              >
+                              <a href={`${location.origin}/dp/${row.asin}`} target="_blank">
                                 <img src={row.imageUrl} alt="" />
                               </a>
                               <div className="cell-desc">
                                 <div>
-                                  <a
-                                    href={`https://www.jindy123.com/-/zh/dp/${row.asin}`}
-                                    target="_blank"
-                                  >
+                                  <a href={`${location.origin}/dp/${row.asin}`} target="_blank">
                                     {row.name}
                                   </a>
                                 </div>
                                 <p>
-                                  <a
-                                    href={`https://www.jindy123.com/-/zh/dp/${row.asin}`}
-                                    target="_blank"
-                                  >
+                                  <a href={`${location.origin}/dp/${row.asin}`} target="_blank">
                                     {row.asin}
                                   </a>
                                   <i>

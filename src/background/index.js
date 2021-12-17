@@ -37,6 +37,8 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   }
 })
 chrome.pageAction.onClicked.addListener(function (tab) {
+  // console.log('click-tab')
+  // console.log(window.location)
   // bg ---> content
   chrome.tabs.query(
     {
@@ -44,15 +46,19 @@ chrome.pageAction.onClicked.addListener(function (tab) {
       currentWindow: true,
     },
     function (tabs) {
-      // console.log(tabs)
-      let message = {
-        // info: '来自bg的情书💌',
-        info: 'send-content',
+      // console.log('===========')
+      // console.log(tabs[0].url)
+      // 搜索列表页
+      if (tabs[0].url.indexOf('/s?k=') > -1) {
+        let message = {
+          // info: '来自bg的情书💌',
+          info: 'send-content',
+        }
+        chrome.tabs.sendMessage(tabs[0].id, message, function (res) {
+          console.log('bg=>content')
+          console.log(res)
+        })
       }
-      chrome.tabs.sendMessage(tabs[0].id, message, function (res) {
-        console.log('bg=>content')
-        console.log(res)
-      })
     },
   )
 

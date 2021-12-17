@@ -9,8 +9,20 @@ import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import './content.less'
 import './insertDom'
+import { ChartDom } from './insertChart'
+
 let corner = 0
 let loadedContent = false
+
+let url = window.location.href
+// 详情页
+// console.log(url)
+// console.log('----------')
+if (url.indexOf('/dp/') > -1) {
+  console.log('----------')
+  ChartDom()
+  console.log('insert-chart')
+}
 
 const fabStyle = {
   position: 'fixed',
