@@ -2,12 +2,15 @@ import React, { useState, useRef, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import CloseIcon from '@material-ui/icons/Close'
 import PersonIcon from '@material-ui/icons/Person'
+// import { Line } from '@antv/g2plot';
 import $ from 'jquery'
+import { getChartData } from './chartData'
 
 export const ChartDom = () => {
   const conWidth = $('#dp-container').width()
   console.log('---------------')
   console.log(conWidth)
+  getChartData()
   function Chart() {
     return (
       <div className="m-chart" style={{ width: conWidth + 'px' }}>
@@ -56,7 +59,9 @@ export const ChartDom = () => {
               </div>
             </div>
           </div>
-          <div className="m-chart-r"></div>
+          <div className="m-chart-r">
+            <div id="container"></div>
+          </div>
         </div>
       </div>
     )
